@@ -1,0 +1,60 @@
+
+exports.seed = function(knex) {
+    return knex('users').insert([
+      { id: 1, 
+        username: 'dreadedlion', 
+        password: 'abc123', 
+        name: 'Bob Marley', 
+        phoneNumber: 8005551234, 
+        address: '123 Candy Lane',
+        currentUseage:'daily',
+        medicalQuery: false,
+        recreationalQuery: true,
+        medicalPurpose: ''
+      },
+      { id: 2, 
+        username: 'cowboyclient', 
+        password: 'cba321', 
+        name: 'Willie Nelson', 
+        phoneNumber: 8005554321, 
+        address: '321 Houston Road',
+        currentUseage:'weekly',
+        medicalQuery: true,
+        recreationalQuery: false,
+        medicalPurpose: 'pain'
+      },
+      { id: 3, 
+        username: 'eddieble', 
+        password: 'a1b2c3', 
+        name: 'Eddie Murphy', 
+        phoneNumber: 8005555555, 
+        address: '5432 Hill St',
+        currentUseage:'monthly',
+        medicalQuery: true,
+        recreationalQuery: true,
+        medicalPurpose: 'insomnia'
+      },
+      { id: 4, 
+        username: 'jimmybob', 
+        password: 'aaa111', 
+        name: 'Jimmy Jones', 
+        phoneNumber: 8005550000, 
+        address: '10000 Hill St',
+        currentUseage:'never used',
+        medicalQuery: false,
+        recreationalQuery: false,
+        medicalPurpose: ''
+      },
+      { id: 5, 
+        username: 'twitchycat', 
+        password: 'cat231', 
+        name: 'Garfield Cat', 
+        phoneNumber: 8181818181, 
+        address: '5432 Journey St',
+        currentUseage:'daily',
+        medicalQuery: true,
+        recreationalQuery: false,
+        medicalPurpose: 'anxiety'
+      }
+    ]);
+};
