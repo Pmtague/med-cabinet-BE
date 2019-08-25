@@ -71,6 +71,22 @@ router.post('/login', (req, res) => {
             //if passes send token
 })
 
+router.delete('/:id', (req, res) => {
+    let id = req.params.id;
+    db.remove(id)
+        .then((user) => {
+            if(user){
+                res.status(200).json({ "deleted user_id": user.id })
+            } else {
+                res.status(400).json({ error: "User doesn't exist" })
+            }
+        })
+        .catch((err) => {
+            console.log(err)
+            res.status(500).json({ error: "Error"})
+        })
+})
+
 
 
 function getJwt(user) {

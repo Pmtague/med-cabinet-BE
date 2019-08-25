@@ -3,7 +3,8 @@ const db = require('../data/dbConfig');
 module.exports = {
     find,
     add,
-    findBy
+    findBy,
+    remove
 }
 
 function find(){
@@ -24,5 +25,25 @@ function add(userInfo){
 }
 
 function findBy(field, fieldValue){
-    return db('users').where({ [field]: fieldValue }).first()
+    return db('users')
+        .where({ [field]: fieldValue })
+        .first()
+}
+
+function remove(id){
+    return findBy("id", id)
+        .then((user) => {
+            console.log(user)
+            if (user) {
+                return db('users')
+                    .where({ id: id })
+                    .del()
+                    .then(() => {
+                        return user
+                    })
+            } else {
+                return null
+            }
+        })
+    
 }
