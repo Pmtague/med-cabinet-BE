@@ -4,6 +4,7 @@ const db = require('./users-model.js')
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const secrets = require('../config/secrets.js');
+const axios = require('axios')
 
 router.get('/', (req, res) => {
     db.find()
@@ -18,13 +19,11 @@ router.get('/', (req, res) => {
 
 
 
-//REGISTER
-
-// username 
-// password 
-// name 
-// email
-
+// R E G I S T E R ------------------------------------------
+    // username 
+    // password 
+    // name 
+    // email
 router.post('/register', (req, res) => {
     //before send, bcrypt pass
      let credentials = req.body;
@@ -39,12 +38,9 @@ router.post('/register', (req, res) => {
         })
 })
 
-//LOGIN
-
-// email
-// password
-
-
+// L O G I N-------------------------------------------------
+    // email
+    // password
 router.post('/login', (req, res) => {
     let credentials = req.body;
     db.findBy("email", credentials.email)
@@ -66,11 +62,11 @@ router.post('/login', (req, res) => {
             console.log(err)
             res.status(500).json({ error: "doh!" })
         })
-    //check if user exists
-        //if exists bcrypt pass verification
-            //if passes send token
 })
 
+
+// D E L E T E---------------------------------
+    // id required in URL
 router.delete('/:id', (req, res) => {
     let id = req.params.id;
     db.remove(id)
@@ -88,6 +84,39 @@ router.delete('/:id', (req, res) => {
 })
 
 
+// T E S T---------------------------
+    // tests auth and making HTTP requests from within Express
+router.get('/test', restricted, (req, res) => {
+    axios.get(`https://jsonplaceholder.typicode.com/todos/1`)
+        .then(resp => {
+            console.log(resp.data)
+            res.status(200).json(resp.data)
+        })
+        .catch((err) => {
+            console.log(err)
+            res.status(500).json({ message: "doh" })
+        })
+})
+
+
+// M I D D L E W A R E ####################################################
+
+function restricted(req, res, next) {
+    const token = req.headers.token;
+    if (token){
+        jwt.verify(token, secrets.jwtSecret, (err, decodedToken) => {
+            if(!err){
+                req.decodedJwt = decodedToken;
+                next();
+            } else {
+                res.status(500).json({ message: "invalid token" })
+            }
+        })
+    }else{
+        res.status(400).json({message: "Bad request"})
+    }
+
+}
 
 function getJwt(user) {
     const payload = {
