@@ -86,10 +86,10 @@ router.delete('/:id', (req, res) => {
 
 // T E S T---------------------------
     // tests auth and making HTTP requests from within Express
-router.get('/test', restricted, (req, res) => {
-    axios.get(`https://jsonplaceholder.typicode.com/todos/1`)
+router.get('/test', (req, res) => {
+    axios.get(`postgres://cneqxveo:DT0HK7Z4JdDVuGruuR8figCUjFMS7-0h@isilo.db.elephantsql.com:5432/cneqxveo`)
         .then(resp => {
-            console.log(resp.data)
+            // console.log(resp.data)
             res.status(200).json(resp.data)
         })
         .catch((err) => {
@@ -97,6 +97,8 @@ router.get('/test', restricted, (req, res) => {
             res.status(500).json({ message: "doh" })
         })
 })
+
+
 
 
 // M I D D L E W A R E ####################################################

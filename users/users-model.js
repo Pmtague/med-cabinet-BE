@@ -8,7 +8,7 @@ module.exports = {
 }
 
 function find(){
-    return db('users')  // === select * from users
+    return db('strains')  // === select * from users
 }
 
 
