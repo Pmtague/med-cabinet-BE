@@ -1,5 +1,6 @@
 const db = require('../data/dbConfig');
-const percentile = require("percentile");
+// const percentile = require("percentile");
+const percentile = require('stats-percentile');
 
 module.exports = {
     find,
@@ -84,15 +85,25 @@ function login(field, fieldValue){
                     })
                     //once testing for goals, run if else based on if questionnare answered
                     return db('strains')
-                        .orderBy("strain_creative", "asc")
+                        .orderBy("creative", "asc")
                         .then((strains) => {
                             let strainsWithIsolatedGoal = [];
                             strains.map((strain) => {
-                                strainsWithIsolatedGoal.push(strain.strain_creative) //< have someone rename strain_[goal] with just the goal name and replace with [goal]
+                                strainsWithIsolatedGoal.push(strain.creative) //< have someone rename strain_[goal] with just the goal name and replace with [goal]
                             }) //<< Add strain goal ranks to an array
-                            let sixtiethP = percentile(80, strainsWithIsolatedGoal)
+                            console.log(strainsWithIsolatedGoal)
+                            let sixtiethP = percentile(strainsWithIsolatedGoal, 67) //60th percentile meaningless due to 0 values
+                            console.log(sixtiethP)
                             let indexOfSixtieth = findIndexOfClosestNum(sixtiethP, strainsWithIsolatedGoal)
                             let sixtiethPercentile = strains[indexOfSixtieth]
+                            console.log(
+                                    indexOfSixtieth,
+                                    indexOfSixtieth + 1,
+                                    indexOfSixtieth + 2,
+                                    indexOfSixtieth + 3,
+                                    indexOfSixtieth + 4,
+                                    indexOfSixtieth + 5
+                            )
                             return {
                                 user: user,
                                 reviews: reviews,

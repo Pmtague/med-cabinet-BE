@@ -32,6 +32,7 @@
     "percentile": "^1.2.2",
     "pg": "^7.12.1",
     "sqlite": "^3.0.3",
+    "stats-percentile": "^3.1.0",
     "supertest": "^4.0.2"
   }
 }
