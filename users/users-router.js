@@ -87,7 +87,7 @@ router.delete('/:id', (req, res) => {
 // T E S T---------------------------
     // tests auth and making HTTP requests from within Express
 router.get('/test', (req, res) => {
-    axios.get(`postgres://cneqxveo:DT0HK7Z4JdDVuGruuR8figCUjFMS7-0h@isilo.db.elephantsql.com:5432/cneqxveo`)
+    axios.get(`https://jsonplaceholder.typicode.com/todos/1`)
         .then(resp => {
             // console.log(resp.data)
             res.status(200).json(resp.data)

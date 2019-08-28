@@ -6,7 +6,7 @@ module.exports = {
   //   client: 'sqlite3',
   //   useNullAsDefault: true,
   //   connection: {
-  //     filename: './data/cannabis_strains2.db'
+  //     filename: './data/cannabis_strains3.db'
   //   },
   //   migrations: {
   //     directory: './data/migrations'
