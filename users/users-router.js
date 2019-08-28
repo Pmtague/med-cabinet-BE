@@ -43,20 +43,21 @@ router.post('/register', (req, res) => {
     // password
 router.post('/login', (req, res) => {
     let credentials = req.body;
-    db.findBy("email", credentials.email)
-        .then((user) => {
-            if (!user || !bcrypt.compareSync(credentials.password, user.password)){
+    db.login("email", credentials.email)
+        .then((resp) => {
+            // console.log(resp.user)
+            if (!resp.user || !bcrypt.compareSync(credentials.password, resp.user.password)){
                 res.status(400).json({ message: "invalid credentials"})
             } else {
-                const token = getJwt(user);
+                const token = getJwt(resp.user);
                 res.status(200).json({
-                    message: `Welcome ${user.username}!`,
-                    username: user.username,
+                    user: resp.user,
                     token,
+                    reviews: resp.reviews,
+                    reviewedStrains: resp.reviewedStrains,
+                    recommendations: resp.recommendations
                 });
             }
-            console.log(user)
-            res.status(200).json(user)
         })
         .catch((err) => {
             console.log(err)
