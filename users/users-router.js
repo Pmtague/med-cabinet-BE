@@ -84,6 +84,19 @@ router.delete('/:id', (req, res) => {
         })
 })
 
+router.patch('/:id', (req, res) => {
+    let id = req.params.id;
+    let updates = req.body;
+    db.update(id, updates)
+        .then((countUpdated) => {
+            res.status(200).json(countUpdated)
+        })  
+        .catch((err) => {
+            console.log(err)
+            res.status(500).json({ message: "doh!" })
+        })
+})
+
 
 // T E S T---------------------------
     // tests auth and making HTTP requests from within Express
