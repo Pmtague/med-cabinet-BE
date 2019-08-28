@@ -129,7 +129,7 @@ function restricted(req, res, next) {
             }
         })
     }else{
-        res.status(400).json({message: "Bad request"})
+        res.status(400).json(token)
     }
 }
 
