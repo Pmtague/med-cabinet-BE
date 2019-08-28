@@ -68,7 +68,7 @@ router.post('/login', (req, res) => {
 
 // D E L E T E---------------------------------
     // id required in URL
-router.delete('/:id', (req, res) => {
+router.delete('/:id', restricted, (req, res) => {
     let id = req.params.id;
     db.remove(id)
         .then((user) => {
@@ -84,7 +84,7 @@ router.delete('/:id', (req, res) => {
         })
 })
 
-router.patch('/:id', (req, res) => {
+router.patch('/:id', restricted, (req, res) => {
     let id = req.params.id;
     let updates = req.body;
     db.update(id, updates)
@@ -100,7 +100,7 @@ router.patch('/:id', (req, res) => {
 
 // T E S T---------------------------
     // tests auth and making HTTP requests from within Express
-router.get('/test', (req, res) => {
+router.get('/test', restricted, (req, res) => {
     axios.get(`https://jsonplaceholder.typicode.com/todos/1`)
         .then(resp => {
             // console.log(resp.data)
@@ -131,7 +131,6 @@ function restricted(req, res, next) {
     }else{
         res.status(400).json({message: "Bad request"})
     }
-
 }
 
 function getJwt(user) {
