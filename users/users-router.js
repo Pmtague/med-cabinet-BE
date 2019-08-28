@@ -129,7 +129,7 @@ function restricted(req, res, next) {
             }
         })
     }else{
-        res.status(400).json(token)
+        res.status(400).json({tokenPassedInByYou: token})
     }
 }
 
