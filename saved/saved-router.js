@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const db = require('./reviews-model.js')
+const db = require('./saved-model.js')
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const secrets = require('../config/secrets.js');

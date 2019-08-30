@@ -92,7 +92,6 @@ function login(field, fieldValue){
                                 }
                             })
                     })
-                    //once testing for goals, run if else based on if questionnare answered
                     return db('strains')
                         .orderBy("creative", "asc")
                         .then((strains) => {
@@ -101,7 +100,6 @@ function login(field, fieldValue){
                                 strainsWithIsolatedGoal.push(strain.creative) //< have someone rename strain_[goal] with just the goal name and replace with [goal]
                             }) //<< Add strain goal ranks to an array\
                             let sixtiethP = percentile(strainsWithIsolatedGoal, 67) //60th percentile meaningless due to 0 values
-                            console.log(sixtiethP)
                             let indexOfSixtieth = findIndexOfClosestNum(sixtiethP, strainsWithIsolatedGoal)
                             return {
                                 user: user,
@@ -116,7 +114,6 @@ function login(field, fieldValue){
                                     strains[indexOfSixtieth + 5]
                                 ]
                             }
-
                         })
                 })
         })
