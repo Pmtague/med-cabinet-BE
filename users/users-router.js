@@ -53,8 +53,7 @@ router.post('/login', (req, res) => {
                 res.status(200).json({
                     user: resp.user,
                     token,
-                    reviews: resp.reviews,
-                    reviewedStrains: resp.reviewedStrains,
+                    savedStrains: resp.reviewedStrains,
                     recommendations: resp.recommendations
                 });
             }

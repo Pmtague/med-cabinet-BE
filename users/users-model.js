@@ -92,10 +92,24 @@ function login(field, fieldValue){
                                 }
                             })
                     })
+                    let goal = "creative"
+                    if(user.goal){
+                        goal = user.goal
+                    }
                     return db('strains')
-                        .orderBy("creative", "asc")
+                        .orderBy(`${goal}`, "asc")
                         .then((strains) => {
                             let strainsWithIsolatedGoal = [];
+                            let increment = 0;
+                            if(user.goal){
+                                let goal = user.goal
+                                if (user[`${goal}`]){
+                                    increment = user[`${goal}`]
+                                } else {
+                                    increment = 0
+                                }
+                                console.log("increment", increment)
+                            }
                             strains.map((strain) => {
                                 strainsWithIsolatedGoal.push(strain.creative) //< have someone rename strain_[goal] with just the goal name and replace with [goal]
                             }) //<< Add strain goal ranks to an array\
@@ -106,12 +120,12 @@ function login(field, fieldValue){
                                 reviews: reviews,
                                 reviewedStrains: reviewedStrains,
                                 recommendations: [
-                                    strains[indexOfSixtieth],
-                                    strains[indexOfSixtieth + 1],
-                                    strains[indexOfSixtieth + 2],
-                                    strains[indexOfSixtieth + 3],
-                                    strains[indexOfSixtieth + 4],
-                                    strains[indexOfSixtieth + 5]
+                                    strains[indexOfSixtieth + increment*6],
+                                    strains[indexOfSixtieth + 1 + increment*6],
+                                    strains[indexOfSixtieth + 2 + increment*6],
+                                    strains[indexOfSixtieth + 3 + increment*6],
+                                    strains[indexOfSixtieth + 4 + increment*6],
+                                    strains[indexOfSixtieth + 5 + increment*6]
                                 ]
                             }
                         })
@@ -150,10 +164,24 @@ function update(id, updates){
                                     })
                             })
                             //once testing for goals, run if else based on if questionnare answered
+                            let goal = "creative"
+                            if(user.goal){
+                                goal = user.goal
+                            }
                             return db('strains')
-                                .orderBy("creative", "asc")
+                                .orderBy(`${goal}`, "asc")
                                 .then((strains) => {
                                     let strainsWithIsolatedGoal = [];
+                                    let increment = 0;
+                                    if(user.goal){
+                                        let goal = user.goal
+                                        if (user[`${goal}`]){
+                                            increment = user[`${goal}`]
+                                        } else {
+                                            increment = 0
+                                        }
+                                        console.log("increment", increment)
+                                    }
                                     strains.map((strain) => {
                                         strainsWithIsolatedGoal.push(strain.creative) //< have someone rename strain_[goal] with just the goal name and replace with [goal]
                                     }) //<< Add strain goal ranks to an array\
@@ -162,8 +190,7 @@ function update(id, updates){
                                     let indexOfSixtieth = findIndexOfClosestNum(sixtiethP, strainsWithIsolatedGoal)
                                     return {
                                         user: user,
-                                        reviews: reviews,
-                                        reviewedStrains: reviewedStrains,
+                                        savedStrains: reviewedStrains,
                                         recommendations: [
                                             strains[indexOfSixtieth],
                                             strains[indexOfSixtieth + 1],
