@@ -17,6 +17,19 @@ router.get('/', (req, res) => {
         })
 })
 
+router.delete('/:strain_id/:user_id', (req, res) => {
+    let strain_id = req.params.strain_id
+    let user_id = req.params.user_id
+    db.remove(strain_id, user_id)
+        .then((resp) => {
+            res.status(200).json(resp)
+        })
+        .catch((err) => {
+            console.log(err)
+            res.status(500).json({ error: "doh!" })
+        })
+})
+
 router.post('/:id', (req, res) => {
     let id = req.params.id;
     let review = req.body;
