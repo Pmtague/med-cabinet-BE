@@ -99,6 +99,7 @@ function login(field, fieldValue){
                     return db('strains')
                         .orderBy(`${goal}`, "asc")
                         .then((strains) => {
+                            console.log("GOAL", goal)
                             let strainsWithIsolatedGoal = [];
                             let increment = 0;
                             if(user.goal){
@@ -111,16 +112,16 @@ function login(field, fieldValue){
                                 console.log("increment", increment)
                             }
                             strains.map((strain) => {
-                                strainsWithIsolatedGoal.push(strain.creative) //< have someone rename strain_[goal] with just the goal name and replace with [goal]
+                                strainsWithIsolatedGoal.push(strain[`${goal}`]) //< have someone rename strain_[goal] with just the goal name and replace with [goal]
                             }) //<< Add strain goal ranks to an array\
-                            let sixtiethP = percentile(strainsWithIsolatedGoal, 67) //60th percentile meaningless due to 0 values
+                            let sixtiethP = percentile(strainsWithIsolatedGoal, 75) //60th percentile meaningless due to 0 values
                             let indexOfSixtieth = findIndexOfClosestNum(sixtiethP, strainsWithIsolatedGoal)
                             return {
                                 user: user,
                                 reviews: reviews,
                                 reviewedStrains: reviewedStrains,
                                 recommendations: [
-                                    strains[indexOfSixtieth + increment*6],
+                                    strains[indexOfSixtieth + increment * 6],
                                     strains[indexOfSixtieth + 1 + increment*6],
                                     strains[indexOfSixtieth + 2 + increment*6],
                                     strains[indexOfSixtieth + 3 + increment*6],
@@ -171,6 +172,7 @@ function update(id, updates){
                             return db('strains')
                                 .orderBy(`${goal}`, "asc")
                                 .then((strains) => {
+                                    console.log("GOAL", goal)
                                     let strainsWithIsolatedGoal = [];
                                     let increment = 0;
                                     if(user.goal){
@@ -183,21 +185,30 @@ function update(id, updates){
                                         console.log("increment", increment)
                                     }
                                     strains.map((strain) => {
-                                        strainsWithIsolatedGoal.push(strain.creative) //< have someone rename strain_[goal] with just the goal name and replace with [goal]
+                                        strainsWithIsolatedGoal.push(strain[`${goal}`]) //< have someone rename strain_[goal] with just the goal name and replace with [goal]
                                     }) //<< Add strain goal ranks to an array\
-                                    let sixtiethP = percentile(strainsWithIsolatedGoal, 67) //60th percentile meaningless due to 0 values
-                                    console.log(sixtiethP)
+                                    let sixtiethP = percentile(strainsWithIsolatedGoal, 75) //60th percentile meaningless due to 0 values
+                                    console.log("60th percentile", sixtiethP)
                                     let indexOfSixtieth = findIndexOfClosestNum(sixtiethP, strainsWithIsolatedGoal)
+                                    console.log("index 60th percentile", indexOfSixtieth)
+                                    console.log(
+                                            indexOfSixtieth,
+                                            indexOfSixtieth + 1,
+                                            indexOfSixtieth + 2,
+                                            indexOfSixtieth + 3,
+                                            indexOfSixtieth + 4,
+                                            indexOfSixtieth + 5
+                                    )
                                     return {
                                         user: user,
                                         savedStrains: reviewedStrains,
                                         recommendations: [
-                                            strains[indexOfSixtieth],
-                                            strains[indexOfSixtieth + 1],
-                                            strains[indexOfSixtieth + 2],
-                                            strains[indexOfSixtieth + 3],
-                                            strains[indexOfSixtieth + 4],
-                                            strains[indexOfSixtieth + 5]
+                                            strains[indexOfSixtieth + increment * 6],
+                                            strains[indexOfSixtieth + 1 + increment*6],
+                                            strains[indexOfSixtieth + 2 + increment*6],
+                                            strains[indexOfSixtieth + 3 + increment*6],
+                                            strains[indexOfSixtieth + 4 + increment*6],
+                                            strains[indexOfSixtieth + 5 + increment*6]
                                         ]
                                     }
         
