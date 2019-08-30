@@ -37,7 +37,10 @@ function add(post){
         .then((review) => {
             console.log("REVIEW", review)
             if (review.length !== 0){
-                return { message: "Strain already saved" }
+                return db('reviews as r')
+                    .join('strains as s', 'r.strain_id', 's.id')
+                    .select('r.strain_id', 's.*',  )
+                    .where({ user_id: user_id})
             } else {
                 return db('reviews').insert(post)
                     .then(([id]) => {
